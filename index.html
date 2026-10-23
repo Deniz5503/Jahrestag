@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Für uns ❤️</title>
+<style>
+:root {
+  --rose: #c65d82;
+  --pink: #f8dce7;
+  --cream: #fffaf6;
+  --ink: #674654;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(145deg, #fff8f4, #fce5ed, #fff1e8);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  text-align: center;
+  overflow-x: hidden;
+}
+main {
+  width: min(680px, 92%);
+  margin: 0 auto;
+  padding: 35px 0 70px;
+}
+.eyebrow {
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font: 11px Arial, sans-serif;
+  color: var(--rose);
+}
+h1 {
+  font-size: clamp(34px, 8vw, 56px);
+  font-weight: normal;
+  margin: 12px 0;
+}
+h2 { font-weight: normal; font-size: 27px; }
+p { line-height: 1.8; }
+.hero {
+  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(198,93,130,.2);
+  border-radius: 24px;
+  padding: 25px 20px;
+  box-shadow: 0 15px 45px #ad59741a;
+}
+.photo {
+  display: block;
+  width: min(100%, 390px);
+  max-height: 440px;
+  object-fit: cover;
+  margin: 25px auto;
+  border: 10px solid white;
+  border-bottom-width: 25px;
+  border-radius: 5px;
+  box-shadow: 0 8px 24px #70445320;
+  transform: rotate(-2deg);
+  animation: appear 1.2s ease both;
+}
+button {
+  font: 16px Georgia, serif;
+  color: white;
+  background: var(--rose);
+  border: none;
+  border-radius: 999px;
+  padding: 13px 22px;
+  margin: 6px;
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+}
+button:hover { transform: translateY(-2px); background: #ad476e; }
+button:focus-visible { outline: 3px solid #784057; outline-offset: 3px; }
+.secondary {
+  background: white;
+  color: var(--rose);
+  border: 1px solid #edc3d3;
+}
+.secondary:hover { background: #fff0f5; }
+.section {
+  margin-top: 22px;
+  padding: 23px 18px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.75);
+}
+.hidden { display: none; }
+.message {
+  white-space: pre-line;
+  animation: appear .5s ease both;
+}
+.heart {
+  position: fixed;
+  bottom: -40px;
+  pointer-events: none;
+  animation: floatUp 5s linear forwards;
+  z-index: 5;
+}
+@keyframes floatUp {
+  from { transform: translateY(0) rotate(0deg); opacity: .9; }
+  to { transform: translateY(-110vh) rotate(35deg); opacity: 0; }
+}
+@keyframes appear {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+footer { margin-top: 35px; font-size: 14px; opacity: .8; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Ein kleines Geschenk von Herzen</div>
+  <h1>Für uns <span>♡</span></h1>
+  <p id="date"></p>
+
+  <section class="hero" id="intro">
+    <p>Für meine Prinzessin</p>
+    <img class="photo" src="unser_foto.jpeg"
+         alt="Unser gemeinsames Foto"
+         onerror="this.style.display='none';
+         document.getElementById('photoHint').style.display='block';">
+    <p id="photoHint" class="hidden">
+      Lege euer Foto als <b>unser_foto.jpeg</b> neben diese Datei.
+    </p>
+    <h2 id="greeting"></h2>
+    <p id="startText"></p>
+    <button onclick="openGift()">Öffne dein Geschenk ♡</button>
+  </section>
+
+  <section class="section hidden" id="memories">
+    <h2>Ein paar Dinge, die ich dir sagen möchte …</h2>
+    <p>Such dir etwas aus. Jede Nachricht ist nur für dich. 💌</p>
+    <div id="buttons"></div>
+    <div class="section message hidden" id="message"></div>
+    <button class="secondary" onclick="showLetter()">
+      Mein Brief an dich 💌
+    </button>
+  </section>
+
+  <section class="section hidden" id="letter">
+    <div class="eyebrow">Von mir für dich</div>
+    <h2>Ein Brief an mein minik Kuzucuk</h2>
+    <p class="message" id="letterText"></p>
+    <div style="font-size:36px;margin:20px">♡</div>
+    <button onclick="hearts()">Noch ein paar Herzen? ❤️</button>
+    <button class="secondary" onclick="backToMemories()">
+      Noch einmal lesen
+    </button>
+  </section>
+
+  <footer>Mit ganz viel Liebe gemacht ♡</footer>
+</main>
+
+<script>
+const recipient = "Mein Kuzucuk";
+const sender = "Dein Nasip";
+const dateText = "Unser Jahrestag";
+const startText = "Ich habe etwas Kleines für dich vorbereitet. Es ist vielleicht kein gekauftes Geschenk, aber es kommt von Herzen. ❤️";
+const messages = [["Was ich an dir liebe", "Du schaffst es, meinen Tag besser zu machen, einfach indem du da bist. Ich liebe die kleinen Dinge an dir, die dich zu dir machen. ❤️"], ["Eine Erinnerung", "Es gibt Momente mit dir, die ich am liebsten noch einmal erleben würde. Nicht weil alles perfekt war, sondern weil ich sie mit dir erlebt habe kuzucuk."], ["Mein Wunsch für uns", "Ich wünsche mir, dass wir noch viele Erinnerungen sammeln, zusammen lachen, Neues entdecken und auch schwierige Tage gemeinsam schaffen. Und habe maximal bock auf Disneyland Reise..."]];
+const letterText = "\nIch weiß manchmal gar nicht, wie ich in Worte fassen soll,\nwie viel du mir bedeutest melegim.\n\nIch bin froh, dass es dich in meinem Leben gibt.\nDanke für die schönen Momente, für dein Lachen,\nfür deine Nähe und für all die kleinen Dinge,\ndie unsere Beziehung besonders machen.\n\nIch weiß, dass nicht jeder Tag perfekt sein muss.\nMir ist wichtig, dass wir wir selbst sein können,\nmiteinander reden und weiter zusammen wachsen (vor allem du, du baby).\n\nWenn ich mir etwas wünschen darf, dann, dass noch\nganz viele Kapitel unserer Geschichte vor uns liegen.\n\nAlles Liebe zu unserem Jahrestag Melegimmmm. ❤️\n\nSeni cok seviyorum.\n";
+
+document.getElementById("greeting").textContent =
+  "Für dich, " + recipient + " ♡";
+document.getElementById("date").textContent = dateText;
+document.getElementById("startText").textContent = startText;
+document.getElementById("letterText").textContent =
+  letterText + "\\n\\n" + sender;
+
+const buttons = document.getElementById("buttons");
+messages.forEach((item, i) => {
+  const button = document.createElement("button");
+  button.className = "secondary";
+  button.textContent = "♡ " + item[0];
+  button.onclick = () => showMessage(i);
+  buttons.appendChild(button);
+});
+
+function openGift() {
+  document.getElementById("memories").classList.remove("hidden");
+  document.getElementById("memories").scrollIntoView({
+    behavior: "smooth", block: "start"
+  });
+  hearts();
+}
+
+function showMessage(i) {
+  const box = document.getElementById("message");
+  box.classList.remove("hidden");
+  box.textContent = messages[i][1];
+  box.style.animation = "none";
+  void box.offsetWidth;
+  box.style.animation = "appear .5s ease both";
+  box.scrollIntoView({behavior: "smooth", block: "nearest"});
+  hearts(4);
+}
+
+function showLetter() {
+  document.getElementById("letter").classList.remove("hidden");
+  document.getElementById("letter").scrollIntoView({
+    behavior: "smooth", block: "start"
+  });
+  hearts(8);
+}
+
+function backToMemories() {
+  document.getElementById("memories").scrollIntoView({
+    behavior: "smooth", block: "start"
+  });
+}
+
+function hearts(count = 12) {
+  const symbols = ["♡", "♥", "💕", "✧"];
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement("span");
+    el.className = "heart";
+    el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    el.style.left = Math.random()*100 + "vw";
+    el.style.fontSize = (16 + Math.random()*22) + "px";
+    el.style.color = ["#c65d82","#e7a1bc","#b87591"][
+      Math.floor(Math.random()*3)];
+    el.style.animationDuration = (3 + Math.random()*3) + "s";
+    document.body.appendChild(el);
+    el.addEventListener("animationend", () => el.remove());
+  }
+}
+</script>
+</body>
+</html>
